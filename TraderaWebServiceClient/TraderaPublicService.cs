@@ -87,7 +87,7 @@ namespace TraderaWebServiceClient
 
                     }
                     
-                    // Checks if the element is the end of an element and then removes it from the reference list array AddSubCategories
+                    // Checks if the element is the end of an element and then removes the last added category from the reference ArrayList AddSubCategories
 
                     else if (rdr.IsEndElement)
                     {
