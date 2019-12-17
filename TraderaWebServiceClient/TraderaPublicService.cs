@@ -34,6 +34,9 @@ namespace TraderaWebServiceClient
         public void GetCategories()
         {
             ArrayList categoryList = new ArrayList();
+
+            // Create arrayList with references to objects inside Arraylist categoryList
+            ArrayList AddSubCategories = new ArrayList();
             Tradera.Category[] categories = this.publicService.GetCategories();
            
             //XmlReader rdr = XmlReader.Create(new System.IO.StringReader(ToXML(categories)));
@@ -45,12 +48,50 @@ namespace TraderaWebServiceClient
                     Console.WriteLine(rdr.LocalName);
                     if (rdr.HasAttributes)
                     {
-                        int id = ToInt(rdr.GetAttribute("Id"));
-                        string name = rdr.GetAttribute("Name");
-                        Console.WriteLine(rdr.GetAttribute("Id"));
-                        Console.WriteLine(rdr.GetAttribute("Name"));
-                        C_CategoryItem newItem = new C_CategoryItem(name, id);
-                        categoryList.Add(newItem);
+                        // Checks if element is a start element which then have children and adds too categoryList and AddSubCategories Arraylists. 
+                        if(rdr.IsStartElement){
+                            int id = ToInt(rdr.GetAttribute("Id"));
+                            string name = rdr.GetAttribute("Name");
+                            Console.WriteLine(rdr.GetAttribute("Id"));
+                            Console.WriteLine(rdr.GetAttribute("Name"));
+                            C_CategoryItem newItem = new C_CategoryItem(name, id);
+                            categoryList.Add(newItem);
+                            AddSubCategories.Add(ref categoryList[categoryList.Count - 1]);
+
+                            // MAKE THIS INTO A FUNCTION
+                            if(AddSubCategories.Count > 0){
+                                foreach (C_CategoryItem obj_Category in AddSubCategories){
+                                    obj_Category.Add(id);
+                                }
+                            }
+
+
+                        }
+
+                        // Checks if element is single line, which should have no children (No sub categories) and adds to categoryList
+                        else if(rdr.IsEmptyElement){
+                            int id = ToInt(rdr.GetAttribute("Id"));
+                            string name = rdr.GetAttribute("Name");
+                            C_CategoryItem newItem = new C_CategoryItem(name, id);
+                            categoryList.Add(newItem);
+
+                            // MAKE THIS INTO A FUNCTION ALSO USED IN THE IF RDR.IsStartElement Above
+                            if (AddSubCategories.Count > 0)
+                            {
+                                foreach (C_CategoryItem obj_Category in AddSubCategories)
+                                {
+                                    obj_Category.Add(id);
+                                }
+                            }
+                        }
+
+                    }
+                    
+                    // Checks if the element is the end of an element and then removes it from the reference list array AddSubCategories
+
+                    else if (rdr.IsEndElement)
+                    {
+                        AddSubCategories.RemoveAt(AddSubCategories.Count - 1);
                     }
                 }
             }
