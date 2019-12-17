@@ -27,6 +27,7 @@ namespace TraderaWebServiceClient
             return this.publicService.GetOfficalTime();
         }
 
+        // TODO alla subkategorier borde går att hämta genom att gå neråt i hierakin....
         public void GetCategories()
         {
             Tradera.Category[] categories = this.publicService.GetCategories();
@@ -38,6 +39,9 @@ namespace TraderaWebServiceClient
                 Tradera.Category category = categories[i];
 
                 Console.WriteLine(category.Name);
+                Tradera.Category[] cat = category.Category1;
+                Tradera.Category cat2 = cat[0];
+                Console.WriteLine(cat2.Name);
             }
         }
 
