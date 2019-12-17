@@ -31,18 +31,15 @@ namespace TraderaWebServiceClient
             return this.publicService.GetOfficalTime();
         }
 
-        // TODO alla subkategorier borde går att hämta genom att gå neråt i hierakin....
         public void GetCategories()
         {
             ArrayList categoryList = new ArrayList();
             Tradera.Category[] categories = this.publicService.GetCategories();
-            
-            Console.WriteLine(categories.Length);
-
-            XmlReader rdr = XmlReader.Create(new System.IO.StringReader(ToXML(categories)));
+           
+            //XmlReader rdr = XmlReader.Create(new System.IO.StringReader(ToXML(categories)));
+            XmlReader rdr = XmlReader.Create(new System.IO.StringReader(""));
             while (rdr.Read())
             {
-            
                 if (rdr.NodeType == XmlNodeType.Element)
                 {
                     Console.WriteLine(rdr.LocalName);
