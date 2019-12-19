@@ -49,19 +49,19 @@ namespace TraderaWebServiceClient
                     if (rdr.HasAttributes)
                     {
                         // Checks if element is a start element which then have children and adds too categoryList and AddSubCategories Arraylists. 
-                        if(rdr.IsStartElement){
+                        if(rdr.IsStartElement()){
                             int id = ToInt(rdr.GetAttribute("Id"));
                             string name = rdr.GetAttribute("Name");
                             Console.WriteLine(rdr.GetAttribute("Id"));
                             Console.WriteLine(rdr.GetAttribute("Name"));
                             C_CategoryItem newItem = new C_CategoryItem(name, id);
                             categoryList.Add(newItem);
-                            AddSubCategories.Add(ref categoryList[categoryList.Count - 1]);
+                            AddSubCategories.Add(categoryList[categoryList.Count - 1]);
 
                             // MAKE THIS INTO A FUNCTION
                             if(AddSubCategories.Count > 0){
                                 foreach (C_CategoryItem obj_Category in AddSubCategories){
-                                    obj_Category.Add(id);
+                                    obj_Category.AddSubCategory(id);
                                 }
                             }
 
@@ -80,7 +80,7 @@ namespace TraderaWebServiceClient
                             {
                                 foreach (C_CategoryItem obj_Category in AddSubCategories)
                                 {
-                                    obj_Category.Add(id);
+                                    obj_Category.AddSubCategory(id);
                                 }
                             }
                         }
@@ -89,11 +89,16 @@ namespace TraderaWebServiceClient
                     
                     // Checks if the element is the end of an element and then removes the last added category from the reference ArrayList AddSubCategories
 
-                    else if (rdr.IsEndElement)
+                    else if (rdr.NodeType == XmlNodeType.EndElement)
                     {
                         AddSubCategories.RemoveAt(AddSubCategories.Count - 1);
                     }
                 }
+            }
+
+            foreach (C_CategoryItem wh_category in categoryList)
+            {
+                wh_category.writeToHost();
             }
         }
 
