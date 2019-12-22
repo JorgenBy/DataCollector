@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
@@ -27,6 +28,8 @@ namespace TraderaWebServiceClient
         {
             //BsonDocument document = categoryItem.ToBson();
             //collection.InsertOne(document);
+             
+            BsonClassMap.RegisterClassMap<C_CategoryItem>();
         }
 
 

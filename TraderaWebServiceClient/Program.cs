@@ -20,9 +20,9 @@ namespace TraderaWebServiceClient
                 //Console.WriteLine("The offical Tradera time is: {0}", officalTraderaTime);
                 //Console.ReadLine();
 
-                //publicService.GetCategories();
+                publicService.GetCategories();
 
-                DatabaseHandler dbhandler = new DatabaseHandler();
+                //DatabaseHandler dbhandler = new DatabaseHandler();
 
 	        } catch(Exception exception) {
 
