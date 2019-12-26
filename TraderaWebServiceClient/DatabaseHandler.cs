@@ -15,24 +15,59 @@ namespace TraderaWebServiceClient
         private string connectionString = "mongodb://localhost";
         private MongoClient dbClient;
         private IMongoDatabase database;
-        private IMongoCollection<BsonDocument> collection;
-        public DatabaseHandler(string databaseName, string collectionName)
+        public DatabaseHandler(string databaseName)
         {
             dbClient = new MongoClient(connectionString);
             database = dbClient.GetDatabase(databaseName);
-            collection = database.GetCollection<BsonDocument>(collectionName);
         }
-        
-        //TODO serialize category object to a Bson document and add it to the collection 
-        public void addCategoryToDB(C_CategoryItem categoryItem) 
+
+
+        /**
+         * Return all documents
+         **/
+        public List<C_CategoryItem> findAllDocuments(string collectionName)
         {
-            //BsonDocument document = categoryItem.ToBson();
-            //collection.InsertOne(document);
-             
-            BsonClassMap.RegisterClassMap<C_CategoryItem>();
+            var collection = database.GetCollection<C_CategoryItem>(collectionName);
+            return collection.Find(new BsonDocument()).ToList();
         }
 
+        /**
+         * Returns the category with the given category id
+        **/
+        public List<C_CategoryItem> findCategoryById<C_CategoryItem>(string collectionName, int categoryId)
+        {
+            var collection = database.GetCollection<C_CategoryItem>(collectionName);
+            var filter = Builders<C_CategoryItem>.Filter.Eq("categoryId", categoryId);
 
-     
+            return collection.Find(filter).ToList();
+        }
+
+        /**
+         * Insert a list of category items
+         **/
+        public bool insertCategoryList(List<C_CategoryItem> list, string collectionName)
+        {
+            bool returnVal = false;
+            var collection = database.GetCollection<C_CategoryItem>(collectionName);
+            foreach (var categoryItem in list)
+            {
+                var replaceOpt = new ReplaceOptions();
+                replaceOpt.IsUpsert = true;
+                var filter = Builders<C_CategoryItem>.Filter.Eq("categoryId", categoryItem.categoryId);
+                ReplaceOneResult result = collection.ReplaceOne(filter, categoryItem, replaceOpt);
+                returnVal = result.IsAcknowledged;
+            }
+            return returnVal;
+        }
+
+        /**
+         * Insert one category item
+         **/
+        public void insertCategory(C_CategoryItem categoryItem, string collectionName)
+        {
+            var collection = database.GetCollection<C_CategoryItem>(collectionName);
+            collection.InsertOne(categoryItem);
+        }
+
     }
 }

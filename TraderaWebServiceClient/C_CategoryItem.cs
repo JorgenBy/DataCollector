@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +11,19 @@ namespace TraderaWebServiceClient
 {
     class C_CategoryItem
     {
-        private string name { get; set; }
-        private int id { get; set; }
-        private ArrayList subcategories;
+        public string name { get; set; }
+
+        [BsonId]
+        public int categoryId { get; set; }
+        public ArrayList subcategories;
+        public bool topcategory { get; set; } 
 
         public C_CategoryItem(string name, int id)
         {
             this.name = name;
-            this.id = id;
+            this.categoryId = id;
             subcategories = null;
+            topcategory = false;
         }
 
         public void AddSubCategory(int subId)
