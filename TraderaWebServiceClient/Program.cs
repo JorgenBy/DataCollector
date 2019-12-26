@@ -11,6 +11,7 @@ namespace TraderaWebServiceClient
         static class Globals
         {
             public static string collection_name = "categories";
+            public static string database_name = "TrMongoDB";
         }
         [STAThread]
         static void Main(string[] args) {
@@ -25,7 +26,7 @@ namespace TraderaWebServiceClient
 
                 //publicService.GetCategories();
 
-                DatabaseHandler dbhandler = new DatabaseHandler("TrMongoDB");
+                DatabaseHandler dbhandler = new DatabaseHandler(Globals.database_name);
                 //dbhandler.insertCategory(new C_CategoryItem("testKategori 2", 101));
 
                 if (insertTestCategories(dbhandler))
@@ -66,6 +67,9 @@ namespace TraderaWebServiceClient
             }
         }
 
+        /**
+         * For testing purposes
+         **/
         static bool insertTestCategories(DatabaseHandler dbhandler)
         {
             bool returnVal = false;

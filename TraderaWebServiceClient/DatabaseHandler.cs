@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 
 namespace TraderaWebServiceClient
 {
@@ -44,6 +40,7 @@ namespace TraderaWebServiceClient
 
         /**
          * Insert a list of category items
+         * Replaces the category if it already exists in the database
          **/
         public bool insertCategoryList(List<C_CategoryItem> list, string collectionName)
         {
