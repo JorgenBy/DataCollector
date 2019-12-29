@@ -16,11 +16,14 @@ namespace TraderaWebServiceClient
                 TraderaPublicService publicService = new TraderaPublicService();
 
                 //DateTime officalTraderaTime = publicService.GetOfficalTime();
-		 
- 		        //Console.WriteLine("The offical Tradera time is: {0}", officalTraderaTime);
- 		        //Console.ReadLine();
 
-                publicService.GetCategories();
+                //Console.WriteLine("The offical Tradera time is: {0}", officalTraderaTime);
+                //Console.ReadLine();
+
+                //publicService.GetCategories();
+
+                TraderaSearchService searchService = new TraderaSearchService();
+                searchService.FetchItemsByCategory(344683);
 
 	        } catch(Exception exception) {
 
