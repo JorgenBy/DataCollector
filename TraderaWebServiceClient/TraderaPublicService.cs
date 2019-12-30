@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace TraderaWebServiceClient
@@ -34,10 +29,12 @@ namespace TraderaWebServiceClient
         public void GetCategories()
         {
             ArrayList categoryList = new ArrayList();
+
+            // Create arrayList with references to objects inside Arraylist categoryList
+            ArrayList AddSubCategories = new ArrayList();
             Tradera.Category[] categories = this.publicService.GetCategories();
            
-            //XmlReader rdr = XmlReader.Create(new System.IO.StringReader(ToXML(categories)));
-            XmlReader rdr = XmlReader.Create(new System.IO.StringReader(""));
+            XmlReader rdr = XmlReader.Create(new System.IO.StringReader(ToXML(categories)));
             while (rdr.Read())
             {
                 if (rdr.NodeType == XmlNodeType.Element)
@@ -45,14 +42,57 @@ namespace TraderaWebServiceClient
                     Console.WriteLine(rdr.LocalName);
                     if (rdr.HasAttributes)
                     {
-                        int id = ToInt(rdr.GetAttribute("Id"));
-                        string name = rdr.GetAttribute("Name");
-                        Console.WriteLine(rdr.GetAttribute("Id"));
-                        Console.WriteLine(rdr.GetAttribute("Name"));
-                        C_CategoryItem newItem = new C_CategoryItem(name, id);
-                        categoryList.Add(newItem);
+                        // Checks if element is a start element which then have children and adds too categoryList and AddSubCategories Arraylists. 
+                        if(rdr.IsStartElement()){
+                            int id = ToInt(rdr.GetAttribute("Id"));
+                            string name = rdr.GetAttribute("Name");
+                            Console.WriteLine(rdr.GetAttribute("Id"));
+                            Console.WriteLine(rdr.GetAttribute("Name"));
+                            C_CategoryItem newItem = new C_CategoryItem(name, id);
+                            categoryList.Add(newItem);
+                            AddSubCategories.Add(categoryList[categoryList.Count - 1]);
+
+                            // MAKE THIS INTO A FUNCTION
+                            if(AddSubCategories.Count > 0){
+                                foreach (C_CategoryItem obj_Category in AddSubCategories){
+                                    obj_Category.AddSubCategory(id);
+                                }
+                            }
+
+
+                        }
+
+                        // Checks if element is single line, which should have no children (No sub categories) and adds to categoryList
+                        else if(rdr.IsEmptyElement){
+                            int id = ToInt(rdr.GetAttribute("Id"));
+                            string name = rdr.GetAttribute("Name");
+                            C_CategoryItem newItem = new C_CategoryItem(name, id);
+                            categoryList.Add(newItem);
+
+                            // MAKE THIS INTO A FUNCTION ALSO USED IN THE IF RDR.IsStartElement Above
+                            if (AddSubCategories.Count > 0)
+                            {
+                                foreach (C_CategoryItem obj_Category in AddSubCategories)
+                                {
+                                    obj_Category.AddSubCategory(id);
+                                }
+                            }
+                        }
+
+                    }
+                    
+                    // Checks if the element is the end of an element and then removes the last added category from the reference ArrayList AddSubCategories
+
+                    else if (rdr.NodeType == XmlNodeType.EndElement)
+                    {
+                        AddSubCategories.RemoveAt(AddSubCategories.Count - 1);
                     }
                 }
+            }
+
+            foreach (C_CategoryItem wh_category in categoryList)
+            {
+                wh_category.writeToHost();
             }
         }
 
