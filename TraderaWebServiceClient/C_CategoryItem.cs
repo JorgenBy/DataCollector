@@ -22,5 +22,11 @@ namespace TraderaWebServiceClient
         {
             this.subcategories.Append(subId);
         }
+
+        public void writeToHost()
+        {
+            Console.Write("Category: " + name + " ID: " + id + " SubCategories: ");
+            Console.WriteLine(string.Join("\n", subcategories));
+        }
     }
 }
