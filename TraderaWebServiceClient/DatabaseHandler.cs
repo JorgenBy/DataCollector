@@ -8,10 +8,10 @@ namespace TraderaWebServiceClient
 {
     class DatabaseHandler
     {
-        private string connectionString = "mongodb://localhost";
+        //private string connectionString = "mongodb://localhost";
         private MongoClient dbClient;
         private IMongoDatabase database;
-        public DatabaseHandler(string databaseName)
+        public DatabaseHandler(string databaseName, string connectionString)
         {
             dbClient = new MongoClient(connectionString);
             database = dbClient.GetDatabase(databaseName);
@@ -64,6 +64,14 @@ namespace TraderaWebServiceClient
         {
             var collection = database.GetCollection<C_CategoryItem>(collectionName);
             collection.InsertOne(categoryItem);
+        }
+
+        public List<C_CategoryItem> FindAllTopCategories(string collectionName)
+        {
+            var collection = database.GetCollection<C_CategoryItem>(collectionName);
+            var filter = Builders<C_CategoryItem>.Filter.Eq("topcategory", true);
+
+            return collection.Find(filter).ToList();
         }
 
     }

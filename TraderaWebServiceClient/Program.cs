@@ -12,6 +12,7 @@ namespace TraderaWebServiceClient
         {
             public static string collection_name = "categories";
             public static string database_name = "TrMongoDB";
+            public static string connection = "mongodb://localhost";
         }
         [STAThread]
         static void Main(string[] args) {
@@ -29,7 +30,7 @@ namespace TraderaWebServiceClient
                 TraderaSearchService searchService = new TraderaSearchService();
                 searchService.FetchItemsByCategory(344683);
             
-                DatabaseHandler dbhandler = new DatabaseHandler(Globals.database_name);
+                DatabaseHandler dbhandler = new DatabaseHandler(Globals.database_name, Globals.connection);
                 //dbhandler.insertCategory(new C_CategoryItem("testKategori 2", 101));
 
                 if (insertTestCategories(dbhandler))
