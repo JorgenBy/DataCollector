@@ -35,7 +35,6 @@ namespace TraderaWebServiceClient
             Tradera.Category[] categories = this.publicService.GetCategories();
            
             XmlReader rdr = XmlReader.Create(new System.IO.StringReader(ToXML(categories)));
-            //XmlReader rdr = XmlReader.Create(new System.IO.StringReader(""));
             while (rdr.Read())
             {
                 if (rdr.NodeType == XmlNodeType.Element)
