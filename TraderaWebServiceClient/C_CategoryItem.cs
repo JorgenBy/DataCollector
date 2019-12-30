@@ -44,5 +44,11 @@ namespace TraderaWebServiceClient
 
             return null;
         }
+
+        public void writeToHost()
+        {
+            Console.Write("Category: " + name + " ID: " + id + " SubCategories: ");
+            Console.WriteLine(string.Join("\n", subcategories));
+        }
     }
 }
