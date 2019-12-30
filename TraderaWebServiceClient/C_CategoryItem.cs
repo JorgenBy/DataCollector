@@ -47,7 +47,7 @@ namespace TraderaWebServiceClient
 
         public void writeToHost()
         {
-            Console.Write("Category: " + name + " ID: " + id + " SubCategories: ");
+            Console.Write("Category: " + name + " ID: " + categoryId + " SubCategories: ");
             Console.WriteLine(string.Join("\n", subcategories));
         }
     }
