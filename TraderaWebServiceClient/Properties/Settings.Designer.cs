@@ -12,7 +12,7 @@ namespace TraderaWebServiceClient.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -30,6 +30,16 @@ namespace TraderaWebServiceClient.Properties {
         public string TraderaWebServiceClient_com_tradera_api_PublicService {
             get {
                 return ((string)(this["TraderaWebServiceClient_com_tradera_api_PublicService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api.tradera.com/v3/searchservice.asmx")]
+        public string TraderaWebServiceClient_TraderaSearch_SearchService {
+            get {
+                return ((string)(this["TraderaWebServiceClient_TraderaSearch_SearchService"]));
             }
         }
     }

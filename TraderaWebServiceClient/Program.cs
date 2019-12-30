@@ -26,6 +26,9 @@ namespace TraderaWebServiceClient
 
                 //publicService.GetCategories();
 
+                TraderaSearchService searchService = new TraderaSearchService();
+                searchService.FetchItemsByCategory(344683);
+            
                 DatabaseHandler dbhandler = new DatabaseHandler(Globals.database_name);
                 //dbhandler.insertCategory(new C_CategoryItem("testKategori 2", 101));
 
@@ -41,7 +44,6 @@ namespace TraderaWebServiceClient
                 }
 
               
-                
 
             } catch(Exception exception) {
 
