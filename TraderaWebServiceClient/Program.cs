@@ -30,20 +30,7 @@ namespace TraderaWebServiceClient
                 TraderaSearchService searchService = new TraderaSearchService();
                 searchService.FetchItemsByCategory(344683);
             
-                DatabaseHandler dbhandler = new DatabaseHandler(Globals.database_name, Globals.connection);
-                //dbhandler.insertCategory(new C_CategoryItem("testKategori 2", 101));
-
-                if (insertTestCategories(dbhandler))
-                {
-                    Console.WriteLine("söker ut allt från databasen");
-                    var categoryList = dbhandler.findAllDocuments(Globals.collection_name);
-                    printResult(categoryList);
-
-                    Console.WriteLine("söker specifik kategori");
-                    categoryList = dbhandler.findCategoryById<C_CategoryItem>(Globals.collection_name, 1);
-                    printResult(categoryList);
-                }
-
+                
               
 
             } catch(Exception exception) {
@@ -70,46 +57,6 @@ namespace TraderaWebServiceClient
             }
         }
 
-        /**
-         * For testing purposes
-         **/
-        static bool insertTestCategories(DatabaseHandler dbhandler)
-        {
-            bool returnVal = false;
-
-            List<C_CategoryItem> list = new List<C_CategoryItem>();
-
-            C_CategoryItem item1 = new C_CategoryItem("Första toppkategorin", 1);
-            item1.topcategory = true;
-            item1.AddSubCategory(3);
-            item1.AddSubCategory(5);
-
-            list.Add(item1);
-
-            C_CategoryItem item2 = new C_CategoryItem("Andra toppkategorin", 2);
-            item2.topcategory = true;
-            item2.AddSubCategory(6);
-
-            list.Add(item2);
-
-            C_CategoryItem item3 = new C_CategoryItem("under kategori till första toppkategorin", 3);
-            item3.AddSubCategory(4);
-
-            list.Add(item3);
-
-            C_CategoryItem item4 = new C_CategoryItem("under kategori till första underkategorin till första toppkategorin", 4);
-
-            list.Add(item4);
-
-            C_CategoryItem item5 = new C_CategoryItem("under kategori till första toppkategorin", 5);
-
-            list.Add(item5);
-
-            C_CategoryItem item6 = new C_CategoryItem("under kategori till första toppkategorin", 6);
-
-            list.Add(item6);
-
-            return dbhandler.insertCategoryList(list, Globals.collection_name);
-        }
+       
     }
 }
