@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TraderaWebServiceClient
 {
-    class C_CategoryItem
+    public class C_CategoryItem
     {
         public string name { get; set; }
 
